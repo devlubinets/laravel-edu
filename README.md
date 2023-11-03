@@ -1,0 +1,3 @@
+Laravel practice
+
+Different routes

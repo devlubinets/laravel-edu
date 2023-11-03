@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+    php:
+        container_name: laravel-edu-php-container
+        build:
+            context: docker/php
+            dockerfile: dev/Dockerfile
+        restart: always
+        env_file:
+            - .env
+        volumes:
+            - ./docker/php/dev/log:/var/www/log
+            - ./docker/php/dev/configuration:/usr/local/etc/php
+            - .:/app
+            - ./docker/php:/etc/cron.d
+            - .env:/.env
+        networks:
+            - laravel-edu-net
+
+    http:
+        container_name: laravel-edu-http-container
+        build:
+            context: docker/http
+            dockerfile: Dockerfile
+        volumes:
+            - ./docker/http/conf.d:/etc/nginx/conf.d
+            - .:/app
+            - .env:/.env
+        networks:
+            - laravel-edu-net
+
+    db:
+        container_name: laravel-edu-db-container
+        image: mysql:latest
+        restart: always
+        volumes:
+            - db-data:/var/lib/mysql
+            - .env:/.env
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        networks:
+            - laravel-edu-net
+
+volumes:
+    db-data:
+
+networks:
+    laravel-edu-net:
