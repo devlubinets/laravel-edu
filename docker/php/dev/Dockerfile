@@ -12,6 +12,8 @@ RUN touch /var/www/log/xdebug.log
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+RUN sudo apt-get install chromium-browser
+
 RUN groupadd -g 1000 ad
 RUN useradd -u 1000 -ms /bin/bash -g ad ad
 

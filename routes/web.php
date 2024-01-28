@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\Identity\IdentitySignInController;
 use App\Http\Controllers\SimpleController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
@@ -26,3 +27,6 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/user', [UsersController::class, 'index'])->name('legacy.user.index');
 
 Route::get("/simple-page", [SimpleController::class, "index"]);
+
+Route::get("/identities-sign-in", [IdentitySignInController::class, "index"])->name("identities-sign-in");
+Route::get("/identities/google-handle", [IdentitySignInController::class, "handleGoogleSignInRequest"])->name("identities-google-handle");
